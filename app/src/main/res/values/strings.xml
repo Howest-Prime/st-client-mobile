@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">howestprime</string>
+    <string name="app_name">Howest Prime</string>
+    <string name="home_label">Home</string>
+    <string name="tickets_label">Tickets</string>
+    <string name="snacks_label">Snacks</string>
+    <string name="map_label">Map</string>
+    <string name="sensors_label">Sensors</string>
+    <string name="cart_label">Cart</string>
+    <string name="back_button">Back</string>
 </resources>
