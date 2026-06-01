@@ -36,7 +36,8 @@ import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.ui.theme.HowestMain
-import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TicketsScreen(
@@ -72,7 +73,8 @@ private fun TicketsHeader(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-    ) {
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
         Text(
             text = stringResource(R.string.tickets_title),
             modifier = Modifier.padding(vertical = 24.dp),
@@ -183,7 +185,10 @@ private fun TicketCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(ticket.movieTitle, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
-                Text(ticket.dateTime.toString(), style = MaterialTheme.typography.bodySmall)
+                Text(
+                    ticket.dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Text(
                     "${stringResource(R.string.tickets_count_label)} ${ticket.totalTicket}",
                     style = MaterialTheme.typography.bodySmall
@@ -215,9 +220,9 @@ private fun TicketsScreenPreview() {
     TicketsScreen(
         uiState = TicketsUIState(
             tickets = listOf(
-                Ticket(1, "Inception", LocalDate.of(2025, 7, 12), 2),
-                Ticket(2, "Interstellar", LocalDate.of(2025, 7, 20), 3),
-                Ticket(3, "The Dark Knight", LocalDate.of(2025, 8, 5), 1)
+                Ticket(1, "Inception", LocalDateTime.of(2025, 7, 12, 20, 30), 2),
+                Ticket(2, "Interstellar", LocalDateTime.of(2025, 7, 20, 18, 0), 3),
+                Ticket(3, "The Dark Knight", LocalDateTime.of(2025, 8, 5, 21, 15), 1)
             )
         ),
         onToggleUpcomingOnly = {}
