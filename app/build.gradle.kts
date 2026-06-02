@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt.gradle)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -47,9 +48,6 @@ android {
         compose = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -87,6 +85,7 @@ dependencies {
 
     // Networking
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.moshi.kotlin)
     implementation(libs.retrofit)
     implementation(libs.converter.moshi)
