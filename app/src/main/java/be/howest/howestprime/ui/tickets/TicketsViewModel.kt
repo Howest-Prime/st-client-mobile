@@ -25,29 +25,24 @@ class TicketsViewModel @Inject constructor(
         loadAllTickets()
     }
 
-    suspend fun toggleUpcomingOnly(enabled: Boolean) {
-        val tickets = if (enabled) getUpcomingTickets() else getAllTickets()
+    fun toggleUpcomingOnly(enabled: Boolean) {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    tickets = tickets,
-                    showUpcomingOnly = enabled
-                )
+            try {
+                val tickets = if (enabled) getUpcomingTickets() else getAllTickets()
+                _uiState.update { it.copy(tickets = tickets, showUpcomingOnly = enabled) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(errorMessage = "Failed to load tickets") }
             }
         }
     }
 
-    private fun loadAllTickets(){
+    private fun loadAllTickets() {
         viewModelScope.launch {
             try {
                 val tickets = getAllTickets()
-                _uiState.update {
-                    it.copy(tickets = tickets, isLoading = false, showUpcomingOnly = false)
-                }
+                _uiState.update { it.copy(tickets = tickets, isLoading = false, showUpcomingOnly = false) }
             } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(isLoading = false, errorMessage = "Failed to load tickets")
-                }
+                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to load tickets") }
             }
         }
     }
