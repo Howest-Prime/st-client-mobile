@@ -13,7 +13,7 @@ class AddSnackToCartUseCase @Inject constructor(
             CartItem(
                 snackId = snack.id,
                 name = snack.name,
-                price = snack.promoPrice ?: snack.price,
+                price = snack.promoPrice ?: snack.originalPrice,
                 quantity = 1
             )
         )

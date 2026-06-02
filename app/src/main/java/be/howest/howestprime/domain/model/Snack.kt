@@ -1,12 +1,14 @@
 package be.howest.howestprime.domain.model
 
-import com.squareup.moshi.JsonClass
-
-@JsonClass(generateAdapter = true)
 data class Snack(
-    val id: Int,
+    val id: String,
     val name: String,
-    val price: Double,
-    val promoPrice: Double? = null,
-    val imageUrl: String = ""
+    val description: String,
+    val imageUrl: String,
+    val category: String,
+    val originalPrice: Double,
+    val promoPrice: Double?,
+    val stock: Int,
+    val promo: Boolean,
+    val allergens: List<String>
 )
