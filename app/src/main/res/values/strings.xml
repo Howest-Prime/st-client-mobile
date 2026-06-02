@@ -41,4 +41,12 @@
     <string name="snack_promo_prefix">PROMO €</string>
     <string name="snack_price_prefix">€</string>
 
+    <string name="sensors_title">SENSORS</string>
+    <string name="sensors_light_sensor_description">Light sensor</string>
+    <string name="sensors_lux_value">%d lux</string>
+    <string name="sensors_seating_description">Seating</string>
+    <string name="sensors_seated">You appear to be seated</string>
+    <string name="sensors_standing">You are standing</string>
+    <string name="sensors_flashlight_label">Enable flashlight</string>
+
 </resources>
