@@ -35,9 +35,8 @@ class SnacksViewModel @Inject constructor(
     private fun loadAllSnacks() {
         viewModelScope.launch {
             try {
-                val snacks = getAllSnacks()
-                _uiState.update {
-                    it.copy(snacks = snacks, isLoading = false)
+                getAllSnacks().collect { snacks ->
+                    _uiState.update { it.copy(snacks = snacks, isLoading = false) }
                 }
             } catch (e: Exception) {
                 _uiState.update {
