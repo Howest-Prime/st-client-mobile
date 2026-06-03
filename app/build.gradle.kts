@@ -23,6 +23,7 @@ android {
             useSupportLibrary = true
         }
 
+        buildConfigField("String", "API_BASE_URL", "\"${project.findProperty("API_BASE_URL")}\"")
         buildConfigField("String", "MAPBOX_ACCESS_TOKEN", "\"${project.findProperty("MAPBOX_ACCESS_TOKEN")}\"")
     }
 
