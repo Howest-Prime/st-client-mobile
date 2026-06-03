@@ -109,7 +109,7 @@ private fun SnackCard(
             if (snack.promoPrice != null) {
                 Text(stringResource(R.string.snack_promo_prefix) + snack.promoPrice, color = HowestPromo, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             } else {
-                Text(stringResource(R.string.snack_price_prefix) + snack.price, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.snack_price_prefix) + snack.originalPrice, fontWeight = FontWeight.SemiBold)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
