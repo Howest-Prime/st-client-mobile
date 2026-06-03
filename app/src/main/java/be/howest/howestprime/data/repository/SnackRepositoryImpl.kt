@@ -37,7 +37,7 @@ private fun SnackDto.toEntity() = SnackEntity(
     promoPrice = promoPrice,
     stock = stock,
     promo = promo,
-    allergens = allergens
+    allergens = allergens.joinToString(",")
 )
 
 private fun SnackDto.toDomain() = Snack(
@@ -63,5 +63,5 @@ private fun SnackEntity.toDomain() = Snack(
     promoPrice = promoPrice,
     stock = stock,
     promo = promo,
-    allergens = allergens
+    allergens = allergens.split(",")
 )
