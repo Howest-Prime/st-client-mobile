@@ -57,7 +57,7 @@ fun HowestPrimeNavGraph(
         composable(Screen.Tickets.route) {
             TicketsScreen(
                 uiState = ticketsUiState,
-                onToggleUpcomingOnly = { ticketsViewModel.toggleUpcomingOnly(it) }
+                onToggleUpcomingOnly = { ticketsViewModel.toggleUpcomingOnly() }
             )
         }
 

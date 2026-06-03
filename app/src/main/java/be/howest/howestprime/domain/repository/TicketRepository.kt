@@ -1,9 +1,9 @@
 package be.howest.howestprime.domain.repository
 
 import be.howest.howestprime.domain.model.Ticket
+import kotlinx.coroutines.flow.Flow
 
 interface TicketRepository {
-    suspend fun getAllTickets(): List<Ticket>
-    suspend fun getUpcomingTickets(): List<Ticket>
-
+    fun getAllTickets(): Flow<List<Ticket>>
+    fun getUpcomingTickets(): Flow<List<Ticket>>
 }
