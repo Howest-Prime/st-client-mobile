@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import be.howest.howestprime.data.local.room.AppDatabase
 import be.howest.howestprime.data.local.room.dao.SnackDao
+import be.howest.howestprime.data.local.room.dao.TicketDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +24,8 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideSnackDao(db: AppDatabase): SnackDao = db.snackDao()
+
+    @Provides
+    @Singleton
+    fun provideTicketDao(db: AppDatabase): TicketDao = db.ticketDao()
 }
