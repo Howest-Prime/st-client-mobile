@@ -55,7 +55,7 @@ The app also contains extra features that improve the cinema experience for visi
 | Status | Feature | Notes |
 |---|---|---|
 | ⏳ | Receive tickets from the MessageBroker | |
-| ❌ | Save tickets in a local Room database | |
+| ⏳ | Save tickets in a local Room database | |
 | ✅ | Display upcoming tickets in a TicketListScreen | |
 | ❌ | Show QR code when clicking on a ticket | |
 | ❌ | Set a reminder notification 1 hour before movie start | |
@@ -64,8 +64,8 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |---|---|---|
-| ❌ | Retrieve snack data via Retrofit | |
-| ❌ | Save snacks in a local Room database | |
+| ✅ | Retrieve snack data via Retrofit | |
+| ✅ | Save snacks in a local Room database | |
 | ✅ | Display snacks in a SnackListScreen | |
 | ✅ | Add snacks to a cart | |
 | ✅ | Show cart overview in CartScreen | |
