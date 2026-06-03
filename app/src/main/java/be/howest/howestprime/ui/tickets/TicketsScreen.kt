@@ -220,9 +220,9 @@ private fun TicketsScreenPreview() {
     TicketsScreen(
         uiState = TicketsUIState(
             tickets = listOf(
-                Ticket(1, "Inception", LocalDateTime.of(2025, 7, 12, 20, 30), 2),
-                Ticket(2, "Interstellar", LocalDateTime.of(2025, 7, 20, 18, 0), 3),
-                Ticket(3, "The Dark Knight", LocalDateTime.of(2025, 8, 5, 21, 15), 1)
+                Ticket("test1", "Inception", LocalDateTime.of(2025, 7, 12, 20, 30), 2),
+                Ticket("Test2", "Interstellar", LocalDateTime.of(2025, 7, 20, 18, 0), 3),
+                Ticket("Test3", "The Dark Knight", LocalDateTime.of(2025, 8, 5, 21, 15), 1)
             )
         ),
         onToggleUpcomingOnly = {}
