@@ -31,6 +31,8 @@ The app also contains extra features that improve the cinema experience for visi
 - working on snacks
 
 ## Wednesday, June 3rd, 2026
+- fetch snacks, persist them to a room DB + render
+- consume ticket message + persist them to a room DB + render + filtering
 
 ## Thursday, June 4th, 2026
 
