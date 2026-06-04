@@ -26,11 +26,11 @@ class TicketsViewModel @Inject constructor(
     }
 
     fun toggleUpcomingOnly() {
-        val enabled = _uiState.value.showUpcomingOnly
+        val enabled = !_uiState.value.showUpcomingOnly
         viewModelScope.launch {
             val flow = if (enabled) getUpcomingTickets() else getAllTickets()
             flow.collect { tickets ->
-                _uiState.update { it.copy(tickets = tickets, showUpcomingOnly = !enabled) }
+                _uiState.update { it.copy(tickets = tickets, showUpcomingOnly = enabled) }
             }
         }
     }
