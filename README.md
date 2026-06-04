@@ -35,6 +35,10 @@ The app also contains extra features that improve the cinema experience for visi
 - consume ticket message + persist them to a room DB + render + filtering
 
 ## Thursday, June 4th, 2026
+- add qr code functionality
+- add mapbox with location
+- add location marker
+- add light sensor implementation
 
 ... continue for each day until the end of the project
 
@@ -56,10 +60,10 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |---|---|---|
-| ⏳ | Receive tickets from the MessageBroker | |
-| ⏳ | Save tickets in a local Room database | |
+| ✅ | Receive tickets from the MessageBroker | |
+| ✅ | Save tickets in a local Room database | |
 | ✅ | Display upcoming tickets in a TicketListScreen | |
-| ❌ | Show QR code when clicking on a ticket | |
+| ✅ | Show QR code when clicking on a ticket | |
 | ❌ | Set a reminder notification 1 hour before movie start | |
 
 ### Snacks
@@ -76,16 +80,16 @@ The app also contains extra features that improve the cinema experience for visi
 ### Location
 
 | Status | Feature | Notes |
-|---|---|---|
-| ❌ | Show Mapbox map with cinema location | |
-| ❌ | Display user location marker | |
+|--|---|---|
+| 🧪 | Show Mapbox map with cinema location | |
+| 🧪 | Display user location marker | |
 
 
 ### Sensors
 
 | Status | Feature | Notes |
-|---|---|---|
-| ⏳ | Detect light intensity and movement | |
+|--|---|---|
+| 🧪 | Detect light intensity and movement | |
 | ❌ | Flashlight activation via toggle button | |
 | ❌ | Unit testing | |
 
