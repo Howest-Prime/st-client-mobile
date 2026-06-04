@@ -24,6 +24,14 @@ android {
         }
 
         buildConfigField("String", "API_BASE_URL", "\"${project.findProperty("API_BASE_URL")}\"")
+
+        buildConfigField("String", "AMQPusername", "\"${project.findProperty("AMQPusername")}\"")
+        buildConfigField("String", "AMQPpassword", "\"${project.findProperty("AMQPpassword")}\"")
+        buildConfigField("String", "AMQPurl", "\"${project.findProperty("AMQPurl")}\"")
+        buildConfigField("String", "AMQPpublishtopic", "\"${project.findProperty("AMQPpublishtopic")}\"")
+        buildConfigField("String", "AMQPsubscribetopic", "\"${project.findProperty("AMQPsubscribetopic")}\"")
+        buildConfigField("String", "AMQPconsumertag", "\"${project.findProperty("AMQPconsumertag")}\"")
+
         buildConfigField("String", "MAPBOX_ACCESS_TOKEN", "\"${project.findProperty("MAPBOX_ACCESS_TOKEN")}\"")
     }
 
