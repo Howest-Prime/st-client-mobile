@@ -1,17 +1,22 @@
 package be.howest.howestprime.ui.tickets
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
 import androidx.compose.material.icons.outlined.QrCode
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -20,6 +25,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +42,11 @@ import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.ui.theme.HowestMain
+import io.github.alexzhirkevich.qrose.options.QrBallShape
+import io.github.alexzhirkevich.qrose.options.QrFrameShape
+import io.github.alexzhirkevich.qrose.options.QrPixelShape
+import io.github.alexzhirkevich.qrose.options.QrShapes
+import io.github.alexzhirkevich.qrose.rememberQrCodePainter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -47,6 +58,13 @@ fun TicketsScreen(
 ) {
     var qrTicket by remember { mutableStateOf<Ticket?>(null) }
     var alarmTicket by remember { mutableStateOf<Ticket?>(null) }
+
+    qrTicket?.let {
+        QrPopUp(
+            ticket = it,
+            onDismiss = { qrTicket = null }
+        )
+    }
 
     Column(
         modifier = modifier
@@ -212,6 +230,63 @@ private fun TicketCard(
             }
         }
     }
+}
+
+@Composable
+private fun QrPopUp(ticket: Ticket, onDismiss: () -> Unit) {
+    val painter = rememberQrCodePainter(
+        data = ticket.id,
+        shapes = QrShapes(
+            ball = QrBallShape.Default,
+            darkPixel = QrPixelShape.Default,
+            frame = QrFrameShape.Default
+        )
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.qr_dialog_title),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Image(
+                    painter = painter,
+                    contentDescription = stringResource(R.string.qr_code_description),
+                    modifier = Modifier.size(220.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = ticket.movieTitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = ticket.dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm")),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.qr_popup_close))
+            }
+        }
+    )
 }
 
 @Preview(showBackground = true)
