@@ -39,7 +39,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.annotation.StringRes
 import be.howest.howestprime.R
+import be.howest.howestprime.domain.model.MovieReminderOption
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.ui.theme.HowestMain
 import io.github.alexzhirkevich.qrose.options.QrBallShape
@@ -70,6 +72,7 @@ fun TicketsScreen(
     alarmTicket?.let { ticket ->
         ReminderPopUp(
             ticket = ticket,
+            options = uiState.reminderOptions,
             onConfirm = { minutesBefore -> onMovieReminderClick(ticket, minutesBefore) },
             onDismiss = { alarmTicket = null }
         )
@@ -298,15 +301,22 @@ private fun QrPopUp(ticket: Ticket, onDismiss: () -> Unit) {
     )
 }
 
-@Composable
-private fun ReminderPopUp(ticket: Ticket, onConfirm: (minutesBefore: Int) -> Unit, onDismiss: () -> Unit) {
-    val options = listOf(
-        30 to R.string.alarm_option_30min,
-        60 to R.string.alarm_option_1hr,
-        120 to R.string.alarm_option_2hr,
-        1440 to R.string.alarm_option_1day
-    )
+@StringRes
+private fun MovieReminderOption.labelRes(): Int = when (this) {
+    MovieReminderOption.TWO_MINUTES -> R.string.alarm_option_2min
+    MovieReminderOption.THIRTY_MINUTES -> R.string.alarm_option_30min
+    MovieReminderOption.ONE_HOUR -> R.string.alarm_option_1hr
+    MovieReminderOption.TWO_HOURS -> R.string.alarm_option_2hr
+    MovieReminderOption.ONE_DAY -> R.string.alarm_option_1day
+}
 
+@Composable
+private fun ReminderPopUp(
+    ticket: Ticket,
+    options: List<MovieReminderOption>,
+    onConfirm: (minutesBefore: Int) -> Unit,
+    onDismiss: () -> Unit
+) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -342,12 +352,12 @@ private fun ReminderPopUp(ticket: Ticket, onConfirm: (minutesBefore: Int) -> Uni
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                options.forEach { (minutes, labelRes) ->
+                options.forEach { option ->
                     TextButton(
-                        onClick = { onConfirm(minutes); onDismiss() },
+                        onClick = { onConfirm(option.minutesBefore); onDismiss() },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(stringResource(labelRes))
+                        Text(stringResource(option.labelRes()))
                     }
                 }
             }
