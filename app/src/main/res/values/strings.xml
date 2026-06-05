@@ -55,6 +55,8 @@
     <string name="sensors_standing">You are standing</string>
     <string name="sensors_flashlight_label">Enable flashlight</string>
 
+    <string name="location_permission_denied">Location permission denied</string>
+
     <string name="cart_title">CART</string>
     <string name="cart_empty">Your cart is empty</string>
     <string name="cart_place_order">Place Order</string>
