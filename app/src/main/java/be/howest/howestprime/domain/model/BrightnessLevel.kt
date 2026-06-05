@@ -5,7 +5,7 @@ enum class BrightnessStatus {
     DIM,
     NORMAL,
     BRIGHT,
-    NOT_AVAILABLE
+    TOO_BRIGHT
 }
 
 data class BrightnessState(
@@ -16,6 +16,6 @@ data class BrightnessState(
         lux < 200 -> BrightnessStatus.DIM
         lux < 500 -> BrightnessStatus.NORMAL
         lux < 1000 -> BrightnessStatus.BRIGHT
-        else -> BrightnessStatus.NOT_AVAILABLE
+        else -> BrightnessStatus.TOO_BRIGHT
     }
 }

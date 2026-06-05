@@ -31,7 +31,7 @@ import be.howest.howestprime.ui.theme.HowestMain
 @Composable
 fun SensorsScreen(
     uiState: SensorsUIState,
-    onToggleFlashlight: (Boolean) -> Unit,
+    toggleFlashLight: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -45,7 +45,7 @@ fun SensorsScreen(
         Spacer(modifier = Modifier.height(40.dp))
         SeatingSection(isSeated = uiState.isSeated)
         Spacer(modifier = Modifier.height(40.dp))
-        FlashlightSection(enabled = uiState.flashlightEnabled, onToggle = onToggleFlashlight)
+        FlashlightSection(enabled = uiState.flashlightEnabled, onToggle = toggleFlashLight)
     }
 }
 
@@ -127,7 +127,7 @@ private fun SeatingSection(
 @Composable
 private fun FlashlightSection(
     enabled: Boolean,
-    onToggle: (Boolean) -> Unit,
+    onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -138,6 +138,6 @@ private fun FlashlightSection(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(stringResource(R.string.sensors_flashlight_label), style = MaterialTheme.typography.bodyLarge)
-        Switch(checked = enabled, onCheckedChange = onToggle)
+        Switch(checked = enabled, onCheckedChange = { onToggle() })
     }
 }

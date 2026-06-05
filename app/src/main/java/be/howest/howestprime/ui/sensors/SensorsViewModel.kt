@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.howest.howestprime.domain.usecase.GetLuxStreamUseCase
 import be.howest.howestprime.domain.usecase.IsSeatedUseCase
+import be.howest.howestprime.domain.usecase.StartListeningToLightSensorUseCase
 import be.howest.howestprime.domain.usecase.ToggleFlashlightUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SensorsViewModel @Inject constructor(
     private val getLuxStream: GetLuxStreamUseCase,
+    private val startListeningToLightSensor: StartListeningToLightSensorUseCase,
     private val isSeated: IsSeatedUseCase,
     private val toggleFlash: ToggleFlashlightUseCase
 ) : ViewModel() {
@@ -24,10 +26,13 @@ class SensorsViewModel @Inject constructor(
     val uiState: StateFlow<SensorsUIState> = _uiState.asStateFlow()
 
     init {
+        startListeningToLightSensor()
         collectLux()
+        collectSeatedStatus()
     }
 
-    fun toggleFlashlight(enabled: Boolean) {
+    fun toggleFlashlight() {
+        val enabled = !_uiState.value.flashlightEnabled
         viewModelScope.launch {
             try {
                 toggleFlash(enabled)
@@ -45,7 +50,6 @@ class SensorsViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             luxValue = lux,
-                            isSeated = isSeated(),
                             isLoading = false,
                             errorMessage = null
                         )
@@ -53,6 +57,18 @@ class SensorsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to read sensor data") }
+            }
+        }
+    }
+
+    private fun collectSeatedStatus() {
+        viewModelScope.launch {
+            try {
+                isSeated().collect { isSeated ->
+                    _uiState.update { it.copy(isSeated = isSeated) }
+                }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to read seating status") }
             }
         }
     }
