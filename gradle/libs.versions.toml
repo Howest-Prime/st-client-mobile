@@ -33,6 +33,9 @@ workRuntimeKtx = "2.10.0"
 #Maps
 mapbox = "11.11.0"
 
+#QR Code
+qrose = "1.0.1"
+
 #Testing
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -95,6 +98,9 @@ androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx"
 # Mapbox
 mapbox-android = { group = "com.mapbox.maps", name = "android", version.ref = "mapbox" }
 mapbox-extension-compose = { group = "com.mapbox.extension", name = "maps-compose", version.ref = "mapbox" }
+
+# QR Code
+qrose = { group = "io.github.alexzhirkevich", name = "qrose", version.ref = "qrose" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
