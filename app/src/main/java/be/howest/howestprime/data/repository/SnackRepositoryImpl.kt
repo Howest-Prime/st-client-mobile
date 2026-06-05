@@ -57,19 +57,6 @@ private fun SnackDto.toEntity() = SnackEntity(
     allergens = allergens.joinToString(",")
 )
 
-private fun SnackDto.toDomain() = Snack(
-    id = id,
-    name = name,
-    description = description,
-    imageUrl = image,
-    category = category,
-    originalPrice = originalPrice,
-    promoPrice = promoPrice,
-    stock = stock,
-    promo = promo,
-    allergens = allergens
-)
-
 private fun SnackEntity.toDomain() = Snack(
     id = id,
     name = name,
