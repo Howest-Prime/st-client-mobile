@@ -2,8 +2,10 @@ package be.howest.howestprime.ui.tickets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.domain.usecase.GetAllTicketsUseCase
 import be.howest.howestprime.domain.usecase.GetUpcomingTicketsUseCase
+import be.howest.howestprime.domain.usecase.ScheduleMovieReminderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketsViewModel @Inject constructor(
     private val getAllTickets: GetAllTicketsUseCase,
-    private val getUpcomingTickets: GetUpcomingTicketsUseCase
+    private val getUpcomingTickets: GetUpcomingTicketsUseCase,
+    private val scheduleMovieReminder: ScheduleMovieReminderUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TicketsUIState())
@@ -33,6 +36,10 @@ class TicketsViewModel @Inject constructor(
                 _uiState.update { it.copy(tickets = tickets, showUpcomingOnly = enabled) }
             }
         }
+    }
+
+    fun scheduleReminder(ticket: Ticket, minutesBefore: Int) {
+        scheduleMovieReminder(ticket, minutesBefore)
     }
 
     private fun loadAllTickets() {

@@ -53,7 +53,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun TicketsScreen(
     uiState: TicketsUIState,
-    onToggleUpcomingOnly: (Boolean) -> Unit,
+    onToggleUpcomingOnly: () -> Unit,
+    onMovieReminderClick: (ticket: Ticket, minutesBefore: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var qrTicket by remember { mutableStateOf<Ticket?>(null) }
@@ -66,6 +67,14 @@ fun TicketsScreen(
         )
     }
 
+    alarmTicket?.let { ticket ->
+        ReminderPopUp(
+            ticket = ticket,
+            onConfirm = { minutesBefore -> onMovieReminderClick(ticket, minutesBefore) },
+            onDismiss = { alarmTicket = null }
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -75,7 +84,7 @@ fun TicketsScreen(
 
         UpcomingFilter(
             checked = uiState.showUpcomingOnly,
-            onCheckedChange = onToggleUpcomingOnly
+            onCheckedChange = { onToggleUpcomingOnly() }
         )
 
         TicketsContent(
@@ -289,6 +298,69 @@ private fun QrPopUp(ticket: Ticket, onDismiss: () -> Unit) {
     )
 }
 
+@Composable
+private fun ReminderPopUp(ticket: Ticket, onConfirm: (minutesBefore: Int) -> Unit, onDismiss: () -> Unit) {
+    val options = listOf(
+        30 to R.string.alarm_option_30min,
+        60 to R.string.alarm_option_1hr,
+        120 to R.string.alarm_option_2hr,
+        1440 to R.string.alarm_option_1day
+    )
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = stringResource(R.string.alarm_popup_title),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = ticket.movieTitle,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = ticket.dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm")),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.alarm_popup_message),
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                options.forEach { (minutes, labelRes) ->
+                    TextButton(
+                        onClick = { onConfirm(minutes); onDismiss() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(labelRes))
+                    }
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.alarm_popup_cancel))
+            }
+        }
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TicketsScreenPreview() {
@@ -300,7 +372,8 @@ private fun TicketsScreenPreview() {
                 Ticket("Test3", "The Dark Knight", LocalDateTime.of(2025, 8, 5, 21, 15), 1)
             )
         ),
-        onToggleUpcomingOnly = {}
+        onToggleUpcomingOnly = {},
+        onMovieReminderClick = { _, _ -> }
     )
 }
 
@@ -309,6 +382,7 @@ private fun TicketsScreenPreview() {
 private fun TicketsScreenEmptyPreview() {
     TicketsScreen(
         uiState = TicketsUIState(tickets = emptyList()),
-        onToggleUpcomingOnly = {}
+        onToggleUpcomingOnly = {},
+        onMovieReminderClick = { _, _ -> }
     )
 }
