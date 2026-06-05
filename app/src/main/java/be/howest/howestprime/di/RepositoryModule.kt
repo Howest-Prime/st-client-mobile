@@ -1,11 +1,13 @@
 package be.howest.howestprime.di
 
 import be.howest.howestprime.data.repository.CartRepositoryImpl
+import be.howest.howestprime.data.repository.LocationRepositoryImpl
 import be.howest.howestprime.data.repository.SensorRepositoryImpl
 import be.howest.howestprime.data.repository.SnackRepositoryImpl
 import be.howest.howestprime.data.repository.SubscriptionRepositoryImpl
 import be.howest.howestprime.data.repository.TicketRepositoryImpl
 import be.howest.howestprime.domain.repository.CartRepository
+import be.howest.howestprime.domain.repository.LocationRepository
 import be.howest.howestprime.domain.repository.SensorRepository
 import be.howest.howestprime.domain.repository.SnackRepository
 import be.howest.howestprime.domain.repository.SubscriptionRepository
@@ -49,4 +51,10 @@ abstract class RepositoryModule {
     abstract fun bindSubscriptionRepository(
         impl: SubscriptionRepositoryImpl
     ): SubscriptionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocationRepository(
+        impl: LocationRepositoryImpl
+    ): LocationRepository
 }
