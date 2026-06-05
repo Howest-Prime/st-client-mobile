@@ -48,7 +48,7 @@ fun HomeScreen(
 
         OrderASnack(onOrderSnackClick = onOrderSnackClick)
 
-        IntroText()
+        IntroTexts()
 
         if (!uiState.isSubscribed) {
             SubscribeToNewsletter(
@@ -99,15 +99,23 @@ private fun OrderASnack(
 }
 
 @Composable
-private fun IntroText(modifier: Modifier = Modifier) {
+private fun IntroText(textID: Int, modifier: Modifier = Modifier) {
     Text(
-        text = stringResource(R.string.intro_text),
+        text = stringResource(textID),
         modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         fontSize = 18f.sp,
         lineHeight = 28.sp
     )
+}
+
+@Composable
+private fun IntroTexts(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxSize().padding(16f.dp)) {
+        IntroText(textID = R.string.intro_text_header, modifier = modifier)
+        IntroText(textID = R.string.intro_text_body, modifier = modifier)
+        IntroText(textID = R.string.intro_text_footer, modifier = modifier)
+    }
 }
 
 @Composable
