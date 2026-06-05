@@ -10,13 +10,14 @@
 
     <string name="hero_title">HOWEST PRIME</string>
     <string name="order_snack_label">ORDER A SNACK!</string>
-    <string name="intro_text">Welcome to Howest Prime!\n
-                                Your personal assistant for the perfect movie experience.
-                                Store and access all your tickets in one place. 
-                                Get notified when your film is about to start. 
-                                Find your way through the cinema complex with ease. 
-                                And order your favorite snacks in advance — no waiting, just enjoying.\n
-                                Enjoy your movie experience with Howest Prime!</string>
+    <string name="intro_text_header">Welcome to Howest Prime!</string>
+    <string name="intro_text_body">Your personal assistant for the perfect movie experience.
+                                Store and access all your tickets in one place.
+                                Get notified when your film is about to start.
+                                Find your way through the cinem complex with ease.
+                                And order your favorite snacks in advance
+                                — no waiting, just enjoying.</string>
+    <string name="intro_text_footer">Enjoy your movie experience with Howest Prime!</string>
     <string name="subscribe_title">Recieve interesting HowestPrime events</string>
     <string name="email_placeholder">Enter your email address</string>
     <string name="subscribe_button">SUBSCRIBE</string>
@@ -26,13 +27,18 @@
     <string name="tickets_count_label">Ticket(s):</string>
     <string name="qr_code_description">QR Code</string>
     <string name="set_alarm_description">Set alarm</string>
+    <string name="qr_dialog_title">Scan this ticket</string>
     <string name="qr_popup_title">Your QR Code</string>
     <string name="qr_popup_subtitle">Scan this code at the entrance</string>
     <string name="qr_popup_close">Close</string>
     <string name="alarm_popup_title">Set Alarm</string>
-    <string name="alarm_popup_message">Set an alarm for this movie?</string>
+    <string name="alarm_popup_message">Notify me before the movie starts:</string>
     <string name="alarm_popup_confirm">Set alarm</string>
     <string name="alarm_popup_cancel">Cancel</string>
+    <string name="alarm_option_30min">30 minutes before</string>
+    <string name="alarm_option_1hr">1 hour before</string>
+    <string name="alarm_option_2hr">2 hours before</string>
+    <string name="alarm_option_1day">1 day before</string>
     <string name="tickets_empty">No tickets found</string>
     <string name="tickets_error_retry">Something went wrong. Please try again.</string>
 
