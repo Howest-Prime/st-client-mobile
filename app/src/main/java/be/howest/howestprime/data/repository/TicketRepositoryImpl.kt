@@ -1,15 +1,22 @@
 package be.howest.howestprime.data.repository
 
 import android.util.Log
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import be.howest.howestprime.data.local.room.dao.TicketDao
 import be.howest.howestprime.data.local.room.entity.TicketEntity
 import be.howest.howestprime.data.messaging.MessageConsumer
+import be.howest.howestprime.data.worker.NotficationWorker
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.domain.repository.TicketRepository
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,6 +25,7 @@ class TicketRepositoryImpl @Inject constructor(
     private val ticketDao: TicketDao,
     private val consumer: MessageConsumer,
     private val moshi: Moshi,
+    private val workManager: WorkManager
 ) : TicketRepository {
 
     private val ticketAdapter = moshi.adapter(Ticket::class.java)
@@ -67,5 +75,25 @@ class TicketRepositoryImpl @Inject constructor(
                 )
             }
         }
+    }
+
+    override fun scheduleReminder(ticket: Ticket, minutesBefore: Int) {
+        val reminderTime = ticket.dateTime.minusMinutes(minutesBefore.toLong())
+        val delayInMs = ChronoUnit.MILLIS.between(LocalDateTime.now(), reminderTime)
+        if (delayInMs <= 0) return
+
+        val inputData = workDataOf(
+            "TICKET_ID" to ticket.id,
+            "MOVIE_NAME" to ticket.movieTitle,
+            "DATE" to ticket.dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            "TIME" to ticket.dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        )
+
+        val workRequest = OneTimeWorkRequestBuilder<NotficationWorker>()
+            .setInitialDelay(delayInMs, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .build()
+
+        workManager.enqueue(workRequest)
     }
 }

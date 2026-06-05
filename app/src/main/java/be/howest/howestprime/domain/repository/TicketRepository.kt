@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface TicketRepository {
     fun getAllTickets(): Flow<List<Ticket>>
     fun getUpcomingTickets(): Flow<List<Ticket>>
+    fun scheduleReminder(ticket: Ticket, minutesBefore: Int)
 }
