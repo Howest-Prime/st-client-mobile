@@ -113,6 +113,9 @@ dependencies {
     implementation(libs.mapbox.android)
     implementation(libs.mapbox.extension.compose)
 
+    // QR Code
+    implementation(libs.qrose)
+
     // Testing
     testImplementation(libs.junit)
     testImplementation(libs.junit.junit)
