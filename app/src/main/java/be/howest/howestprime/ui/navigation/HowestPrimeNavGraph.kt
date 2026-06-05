@@ -1,7 +1,9 @@
 package be.howest.howestprime.ui.navigation
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -9,6 +11,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.AppPermission
+import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.MainViewModel
+import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.PermissionManager
 import be.howest.howestprime.ui.cart.CartScreen
 import be.howest.howestprime.ui.cart.CartViewModel
 import be.howest.howestprime.ui.home.HomeScreen
@@ -25,6 +30,7 @@ import be.howest.howestprime.ui.tickets.TicketsViewModel
 @Composable
 fun HowestPrimeNavGraph(
     navController: NavHostController = rememberNavController(),
+    mainViewModel: MainViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel(),
     ticketsViewModel: TicketsViewModel = hiltViewModel(),
     snacksViewModel: SnacksViewModel = hiltViewModel(),
@@ -33,12 +39,23 @@ fun HowestPrimeNavGraph(
     sensorsViewModel: SensorsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+
     val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val ticketsUiState by ticketsViewModel.uiState.collectAsStateWithLifecycle()
     val snacksUiState by snacksViewModel.uiState.collectAsStateWithLifecycle()
     val cartUiState by cartViewModel.uiState.collectAsStateWithLifecycle()
     val mapUiState by mapViewModel.uiState.collectAsStateWithLifecycle()
     val sensorsUiState by sensorsViewModel.uiState.collectAsStateWithLifecycle()
+
+    val permissionRequest by mainViewModel.permissionRequest.collectAsStateWithLifecycle()
+
+    PermissionManager(
+        permissionRequest = permissionRequest,
+        onPermissionResult = { permission, granted ->
+            mainViewModel.onPermissionResult(permission, granted)
+        }
+    )
 
     NavHost(
         navController = navController,
@@ -50,14 +67,21 @@ fun HowestPrimeNavGraph(
                 uiState = homeUiState,
                 onOrderSnackClick = { navController.navigate(Screen.Snacks.route) },
                 onEmailChanged = { homeViewModel.onEmailChanged(it) },
-                onSubscribeClick = { homeViewModel.onSubscribeClick() }
+                onSubscribeClick = { 
+                    homeViewModel.onSubscribeClick() 
+                    Toast.makeText(context, "Subscribed to newsletter.", Toast.LENGTH_SHORT).show()
+                    }
             )
         }
 
         composable(Screen.Tickets.route) {
             TicketsScreen(
                 uiState = ticketsUiState,
-                onToggleUpcomingOnly = { ticketsViewModel.toggleUpcomingOnly() }
+                onToggleUpcomingOnly = { ticketsViewModel.toggleUpcomingOnly() },
+                onMovieReminderClick = { ticket, minutesBefore ->
+                    mainViewModel.requestPermission(AppPermission.NOTIFICATIONS)
+                    ticketsViewModel.scheduleReminder(ticket, minutesBefore)
+                }
             )
         }
 
@@ -79,8 +103,9 @@ fun HowestPrimeNavGraph(
         composable(Screen.Map.route) {
             MapScreen(
                 uiState = mapUiState,
-                onPermissionGranted = { mapViewModel.onPermissionGranted() },
-                onPermissionDenied = { mapViewModel.onPermissionDenied() }
+                onRequestLocationPermission = { mainViewModel.requestPermission(AppPermission.LOCATION) },
+                onMapReady = { mapViewModel.attachMapView(it) },
+                onMapDisposed = { mapViewModel.detachMapView() }
             )
         }
 
