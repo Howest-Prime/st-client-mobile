@@ -64,7 +64,7 @@ The app also contains extra features that improve the cinema experience for visi
 | ✅ | Save tickets in a local Room database | |
 | ✅ | Display upcoming tickets in a TicketListScreen | |
 | ✅ | Show QR code when clicking on a ticket | |
-| ❌ | Set a reminder notification 1 hour before movie start | |
+| ✅ | Set a reminder notification 1 hour before movie start | |
 
 ### Snacks
 
@@ -81,8 +81,8 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |--|---|---|
-| 🧪 | Show Mapbox map with cinema location | |
-| 🧪 | Display user location marker | |
+| ✅ | Show Mapbox map with cinema location | |
+| ✅ | Display user location marker | |
 
 
 ### Sensors
@@ -90,7 +90,7 @@ The app also contains extra features that improve the cinema experience for visi
 | Status | Feature | Notes |
 |--|---|---|
 | 🧪 | Detect light intensity and movement | |
-| ❌ | Flashlight activation via toggle button | |
+| ✅ | Flashlight activation via toggle button | |
 | ❌ | Unit testing | |
 
 
@@ -101,14 +101,14 @@ The app also contains extra features that improve the cinema experience for visi
 | Status | Feature | Notes |
 |---|---|---|
 | ❌ | Show detailed ticket information | |
-| ❌ | Multiple notification options | |
+| ✅ | Multiple notification options | |
 
 
 ### Snacks
 
 | Status | Feature | Notes |
 |---|---|---|
-| ❌ | Send snack orders to MessageBroker | |
+| ✅ | Send snack orders to MessageBroker | |
 
 
 ### Location
