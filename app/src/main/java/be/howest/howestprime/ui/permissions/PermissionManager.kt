@@ -1,4 +1,4 @@
-package be.howest.annaudenaert.sweetdroiddelights.ui.permissions
+package be.howest.howestprime.ui.permissions
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts

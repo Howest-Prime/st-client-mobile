@@ -1,4 +1,4 @@
-package be.howest.annaudenaert.sweetdroiddelights.ui.permissions
+package be.howest.howestprime.ui.permissions
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
