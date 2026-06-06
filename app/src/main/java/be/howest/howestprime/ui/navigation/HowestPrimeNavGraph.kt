@@ -14,9 +14,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.AppPermission
-import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.MainViewModel
-import be.howest.annaudenaert.sweetdroiddelights.ui.permissions.PermissionManager
+import be.howest.howestprime.ui.permissions.AppPermission
+import be.howest.howestprime.ui.permissions.MainViewModel
+import be.howest.howestprime.ui.permissions.PermissionManager
 import be.howest.howestprime.ui.cart.CartScreen
 import be.howest.howestprime.ui.cart.CartViewModel
 import be.howest.howestprime.ui.home.HomeScreen
@@ -157,7 +157,9 @@ fun HowestPrimeNavGraph(
         composable(Screen.Sensors.route) {
             SensorsScreen(
                 uiState = sensorsUiState,
-                toggleFlashLight = { sensorsViewModel.toggleFlashlight() }
+                toggleFlashLight = { sensorsViewModel.toggleFlashlight() },
+                onScreenVisible = { sensorsViewModel.onScreenVisible() },
+                onScreenHidden = { sensorsViewModel.onScreenHidden() }
             )
         }
     }

@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -32,8 +33,15 @@ import be.howest.howestprime.ui.theme.HowestMain
 fun SensorsScreen(
     uiState: SensorsUIState,
     toggleFlashLight: () -> Unit,
+    onScreenVisible: () -> Unit,
+    onScreenHidden: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    DisposableEffect(Unit) {
+        onScreenVisible()
+        onDispose { onScreenHidden() }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()

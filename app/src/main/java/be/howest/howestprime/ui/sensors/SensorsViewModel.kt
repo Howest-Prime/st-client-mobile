@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import be.howest.howestprime.domain.usecase.GetLuxStreamUseCase
 import be.howest.howestprime.domain.usecase.IsSeatedUseCase
 import be.howest.howestprime.domain.usecase.StartListeningToLightSensorUseCase
+import be.howest.howestprime.domain.usecase.StopListeningToLightSensorUseCase
 import be.howest.howestprime.domain.usecase.ToggleFlashlightUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SensorsViewModel @Inject constructor(
     private val getLuxStream: GetLuxStreamUseCase,
-    private val startListeningToLightSensor: StartListeningToLightSensorUseCase,
+    private val startListening: StartListeningToLightSensorUseCase,
+    private val stopListening: StopListeningToLightSensorUseCase,
     private val isSeated: IsSeatedUseCase,
     private val toggleFlash: ToggleFlashlightUseCase
 ) : ViewModel() {
@@ -26,9 +28,16 @@ class SensorsViewModel @Inject constructor(
     val uiState: StateFlow<SensorsUIState> = _uiState.asStateFlow()
 
     init {
-        startListeningToLightSensor()
         collectLux()
         collectSeatedStatus()
+    }
+
+    fun onScreenVisible() {
+        startListening()
+    }
+
+    fun onScreenHidden() {
+        stopListening()
     }
 
     fun toggleFlashlight() {
