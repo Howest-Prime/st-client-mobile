@@ -7,4 +7,5 @@ interface CartRepository {
     suspend fun addItem(item: CartItem)
     fun getCartItems(): Flow<List<CartItem>>
     suspend fun clearCart()
+    suspend fun placeOrder()
 }

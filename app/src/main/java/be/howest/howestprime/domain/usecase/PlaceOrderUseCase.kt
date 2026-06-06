@@ -8,6 +8,6 @@ class PlaceOrderUseCase @Inject constructor(
     private val cartRepository: CartRepository
 ) {
     suspend operator fun invoke(items: List<CartItem>) {
-        cartRepository.clearCart()
+        cartRepository.placeOrder()
     }
 }
