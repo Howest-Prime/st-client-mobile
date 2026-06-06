@@ -148,9 +148,8 @@ fun HowestPrimeNavGraph(
                         }
                     }
                 },
-                onLocationPermissionGranted = { mapViewModel.startLocationUpdates() },
-                onMapReady = {},
-                onMapDisposed = {},
+                onMapReady = { mapView -> mapViewModel.onMapReady(mapView) },
+                onMapDisposed = { mapViewModel.onMapDisposed() },
             )
         }
 

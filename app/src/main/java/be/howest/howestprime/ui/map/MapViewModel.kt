@@ -2,8 +2,11 @@ package be.howest.howestprime.ui.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import be.howest.howestprime.domain.usecase.AttachMapViewUseCase
+import be.howest.howestprime.domain.usecase.DetachMapViewUseCase
 import be.howest.howestprime.domain.usecase.GetCinemaLocationUseCase
 import be.howest.howestprime.domain.usecase.GetLocationStreamUseCase
+import com.mapbox.maps.MapView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MapViewModel @Inject constructor(
     private val getCinemaLocation: GetCinemaLocationUseCase,
-    private val getLocationStream: GetLocationStreamUseCase
+    private val getLocationStream: GetLocationStreamUseCase,
+    private val attachMapView: AttachMapViewUseCase,
+    private val detachMapView: DetachMapViewUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MapUIState())
@@ -33,5 +38,13 @@ class MapViewModel @Inject constructor(
                 _uiState.update { it.copy(userLocation = point) }
             }
         }
+    }
+
+    fun onMapReady(mapView: MapView) {
+        attachMapView(mapView)
+    }
+
+    fun onMapDisposed() {
+        detachMapView()
     }
 }
