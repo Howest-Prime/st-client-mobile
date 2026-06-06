@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 
 class MainViewModel : ViewModel() {
 
-    private val _permissionRequest =
-        MutableStateFlow<AppPermission?>(null)
+    private val _permissionRequest = MutableStateFlow<AppPermission?>(null)
+    val permissionRequest: StateFlow<AppPermission?> = _permissionRequest
 
-    val permissionRequest: StateFlow<AppPermission?> =
-        _permissionRequest
+    private val _deniedPermission = MutableStateFlow<AppPermission?>(null)
+    val deniedPermission: StateFlow<AppPermission?> = _deniedPermission
 
     fun requestPermission(permission: AppPermission) {
         _permissionRequest.value = permission
@@ -21,5 +21,10 @@ class MainViewModel : ViewModel() {
     fun onPermissionResult(permission: AppPermission, granted: Boolean) {
         Log.d("Permission", "$permission granted: $granted")
         _permissionRequest.value = null
+        if (!granted) _deniedPermission.value = permission
+    }
+
+    fun onDeniedMessageShown() {
+        _deniedPermission.value = null
     }
 }
