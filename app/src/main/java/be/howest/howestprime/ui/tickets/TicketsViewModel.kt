@@ -38,8 +38,21 @@ class TicketsViewModel @Inject constructor(
         }
     }
 
+    private var pendingReminder: Pair<Ticket, Int>? = null
+
+    fun setPendingReminder(ticket: Ticket, minutesBefore: Int) {
+        pendingReminder = ticket to minutesBefore
+    }
+
     fun scheduleReminder(ticket: Ticket, minutesBefore: Int) {
         scheduleMovieReminder(ticket, minutesBefore)
+    }
+
+    fun schedulePendingReminder() {
+        pendingReminder?.let { (ticket, minutesBefore) ->
+            scheduleMovieReminder(ticket, minutesBefore)
+            pendingReminder = null
+        }
     }
 
     private fun loadAllTickets() {
