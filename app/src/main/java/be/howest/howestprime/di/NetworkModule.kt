@@ -1,7 +1,7 @@
 package be.howest.howestprime.di
 
 import be.howest.howestprime.BuildConfig
-import be.howest.howestprime.data.messaging.json.LocalDateTimeJsonAdapter
+import be.howest.howestprime.data.messaging.json.LocalDateTimeAdapter
 import be.howest.howestprime.data.remote.api.SnackApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -22,7 +22,7 @@ object NetworkModule {
     @Singleton
     fun provideMoshi(): Moshi = lazy {
         Moshi.Builder()
-            .add(LocalDateTimeJsonAdapter.LocalDateTimeAdapter())
+            .add(LocalDateTimeAdapter())
             .addLast(KotlinJsonAdapterFactory())
             .build()
     }.value

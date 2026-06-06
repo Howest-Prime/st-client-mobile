@@ -40,6 +40,16 @@ The app also contains extra features that improve the cinema experience for visi
 - add location marker
 - add light sensor implementation
 
+## Friday, June 5th, 2026
+- add movie reminder functionlity (notification background worker)
+- emit snack order to message broker
+
+## Sat, June 6th, 2026
+- implemented sensor repo
+- implemented location repo
+- code refactor/ clean up
+
+
 ... continue for each day until the end of the project
 
 # Status Overview Technical Requirements
