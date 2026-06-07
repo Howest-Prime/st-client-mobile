@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val getCartItems: GetCartItemsUseCase,
-    private val placeOrder: PlaceOrderUseCase,
+    private val makeOrder: PlaceOrderUseCase,
     private val clearCartItems: ClearCartUseCase
 ) : ViewModel() {
 
@@ -31,7 +31,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _uiState.update { it.copy(isPlacingOrder = true) }
-                placeOrder(_uiState.value.items)
+                makeOrder()
                 _uiState.update { it.copy(isPlacingOrder = false, isOrderPlaced = true) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isPlacingOrder = false, errorMessage = "Failed to place order") }

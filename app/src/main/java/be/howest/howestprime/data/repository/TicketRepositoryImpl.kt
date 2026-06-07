@@ -64,8 +64,9 @@ class TicketRepositoryImpl @Inject constructor(
     }
 
     override fun getUpcomingTickets(): Flow<List<Ticket>> {
-        Log.i("TicketRepository", "Fetching upcoming tickets from ${LocalDateTime.now()}")
-        return ticketDao.getUpcomingTickets().map { entities ->
+        val now = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        Log.i("TicketRepository", "Fetching upcoming tickets from $now")
+        return ticketDao.getUpcomingTickets(now).map { entities ->
             entities.map { entity ->
                 Ticket(
                     id = entity.id,
