@@ -111,7 +111,7 @@ fun TicketDetailScreen(
             )
         }
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         InfoRow(
             icon = { Icon(Icons.Outlined.CalendarMonth, contentDescription = null, tint = HowestMain) },
@@ -125,8 +125,9 @@ fun TicketDetailScreen(
             text = "${ticket.totalTicket} ${stringResource(R.string.ticket_detail_tickets_label)}"
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (ticket.duration != null || ticket.releaseDate != null || ticket.director != null) {
-            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -152,7 +153,6 @@ fun TicketDetailScreen(
         }
 
         if (ticket.description != null) {
-            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             Text(
                 text = ticket.description,
                 style = MaterialTheme.typography.bodyMedium,
@@ -161,7 +161,9 @@ fun TicketDetailScreen(
             )
         }
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 28.dp))
 
         Text(
             text = stringResource(R.string.qr_popup_subtitle),
