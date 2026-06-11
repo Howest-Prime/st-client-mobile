@@ -99,16 +99,6 @@ private fun CartContent(
     modifier: Modifier = Modifier
 ) {
     when {
-        uiState.isLoading -> {
-            Box(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(48.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(color = HowestMain)
-            }
-        }
         uiState.errorMessage != null -> {
             Text(
                 text = uiState.errorMessage,

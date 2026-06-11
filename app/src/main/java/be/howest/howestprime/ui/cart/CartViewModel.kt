@@ -54,10 +54,10 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getCartItems().collect { items ->
-                    _uiState.update { it.copy(items = items, isLoading = false) }
+                    _uiState.update { it.copy(items = items) }
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to load cart") }
+                _uiState.update { it.copy(errorMessage = "Failed to load cart") }
             }
         }
     }

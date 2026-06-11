@@ -36,10 +36,10 @@ class SnacksViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getAllSnacks().collect { snacks ->
-                    _uiState.update { it.copy(snacks = snacks, isLoading = false) }
+                    _uiState.update { it.copy(snacks = snacks) }
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to load snacks") }
+                _uiState.update { it.copy(errorMessage = "Failed to load snacks") }
             }
         }
     }

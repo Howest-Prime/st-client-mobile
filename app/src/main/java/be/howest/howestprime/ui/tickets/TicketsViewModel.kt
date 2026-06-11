@@ -58,7 +58,7 @@ class TicketsViewModel @Inject constructor(
     private fun loadAllTickets() {
         viewModelScope.launch {
             getAllTickets().collect { tickets ->
-                _uiState.update { it.copy(tickets = tickets, isLoading = false) }
+                _uiState.update { it.copy(tickets = tickets) }
             }
         }
     }

@@ -7,6 +7,5 @@ data class TicketsUIState(
     val tickets: List<Ticket> = emptyList(),
     val reminderOptions: List<MovieReminderOption> = MovieReminderOption.entries,
     val showUpcomingOnly: Boolean = false,
-    val isLoading: Boolean = false,
     val errorMessage: String? = null
 )

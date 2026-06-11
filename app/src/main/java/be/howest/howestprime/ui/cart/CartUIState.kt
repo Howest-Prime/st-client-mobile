@@ -7,7 +7,6 @@ data class CartUIState(
     val items: List<CartItem> = emptyList(),
     val pickupDate: LocalDate = LocalDate.now(),
     val reminderEnabled: Boolean = false,
-    val isLoading: Boolean = false,
     val isPlacingOrder: Boolean = false,
     val isOrderPlaced: Boolean = false,
     val errorMessage: String? = null

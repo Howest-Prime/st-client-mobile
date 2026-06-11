@@ -59,13 +59,12 @@ class SensorsViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             luxValue = lux,
-                            isLoading = false,
                             errorMessage = null
                         )
                     }
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to read sensor data") }
+                _uiState.update { it.copy(errorMessage = "Failed to read sensor data") }
             }
         }
     }
@@ -77,7 +76,7 @@ class SensorsViewModel @Inject constructor(
                     _uiState.update { it.copy(isSeated = isSeated) }
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to read seating status") }
+                _uiState.update { it.copy(errorMessage = "Failed to read seating status") }
             }
         }
     }
