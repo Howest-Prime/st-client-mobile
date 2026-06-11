@@ -78,6 +78,14 @@ class TicketRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getTicketById(id: String): Flow<Ticket?> {
+        return ticketDao.getTicketById(id).map { entity ->
+            entity?.let {
+                Ticket(id = it.id, movieTitle = it.movieTitle, dateTime = it.dateTime, totalTicket = it.totalTicket)
+            }
+        }
+    }
+
     override fun scheduleReminder(ticket: Ticket, minutesBefore: Int) {
         val reminderTime = ticket.dateTime.minusMinutes(minutesBefore.toLong())
         val delayInMs = ChronoUnit.MILLIS.between(LocalDateTime.now(), reminderTime)

@@ -16,6 +16,9 @@ interface TicketDao {
     @Query("SELECT * FROM tickets WHERE dateTime > :now")
     fun getUpcomingTickets(now: String): Flow<List<TicketEntity>>
 
+    @Query("SELECT * FROM tickets WHERE id = :id")
+    fun getTicketById(id: String): Flow<TicketEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTicket(ticket: TicketEntity)
 }
