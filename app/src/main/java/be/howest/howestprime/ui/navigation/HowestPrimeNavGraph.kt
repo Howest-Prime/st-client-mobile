@@ -21,6 +21,7 @@ import be.howest.howestprime.ui.permissions.MainViewModel
 import be.howest.howestprime.ui.permissions.PermissionManager
 import be.howest.howestprime.ui.cart.CartScreen
 import be.howest.howestprime.ui.cart.CartViewModel
+import be.howest.howestprime.ui.cart.shareOrder
 import be.howest.howestprime.ui.home.HomeScreen
 import be.howest.howestprime.ui.home.HomeViewModel
 import be.howest.howestprime.ui.map.MapScreen
@@ -130,7 +131,7 @@ fun HowestPrimeNavGraph(
             val ticketDetailViewModel: TicketDetailViewModel = hiltViewModel()
             val ticketDetailUiState by ticketDetailViewModel.uiState.collectAsStateWithLifecycle()
 
-            val ticketId = backStackEntry.arguments?.getString("ticketId")
+            val ticketId: String = backStackEntry.arguments?.getString("ticketId").toString()
             ticketDetailViewModel.loadTicket(ticketId)
             
             TicketDetailScreen(
@@ -163,7 +164,8 @@ fun HowestPrimeNavGraph(
             CartScreen(
                 uiState = cartUiState,
                 onPlaceOrder = { cartViewModel.placeOrder() },
-                onClearCart = { cartViewModel.clearCart(); navController.popBackStack() }
+                onClearCart = { cartViewModel.clearCart(); navController.popBackStack() },
+                onShare = { shareOrder(context, cartUiState.items, cartUiState.totalPrice) }
             )
         }
 

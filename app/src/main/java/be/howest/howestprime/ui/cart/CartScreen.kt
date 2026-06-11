@@ -1,5 +1,7 @@
 package be.howest.howestprime.ui.cart
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +13,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -29,11 +34,23 @@ import be.howest.howestprime.R
 import be.howest.howestprime.domain.model.CartItem
 import be.howest.howestprime.ui.theme.HowestMain
 
+fun shareOrder(context: Context, items: List<CartItem>, totalPrice: Double) {
+    val lines = items.joinToString("\n") { "- ${it.quantity}x ${it.name}" }
+    val text = "Check out my snack order at Howest Prime!\n\n$lines\n\nTotal: €${"%.2f".format(totalPrice)}"
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, "My Howest Prime Order")
+        putExtra(Intent.EXTRA_TEXT, text)
+    }
+    context.startActivity(Intent.createChooser(intent, "Share order"))
+}
+
 @Composable
 fun CartScreen(
     uiState: CartUIState,
     onPlaceOrder: () -> Unit,
     onClearCart: () -> Unit,
+    onShare: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -41,7 +58,7 @@ fun CartScreen(
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        CartHeader()
+        CartHeader(onShare = onShare, hasItems = uiState.items.isNotEmpty())
         CartContent(
             uiState = uiState,
             onPlaceOrder = onPlaceOrder,
@@ -51,7 +68,7 @@ fun CartScreen(
 }
 
 @Composable
-private fun CartHeader(modifier: Modifier = Modifier) {
+private fun CartHeader(onShare: () -> Unit, hasItems: Boolean, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -63,6 +80,14 @@ private fun CartHeader(modifier: Modifier = Modifier) {
             fontSize = 28.sp,
             fontWeight = FontWeight.ExtraBold
         )
+        if (hasItems) {
+            androidx.compose.material3.IconButton(
+                onClick = onShare,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Icon(Icons.Outlined.Share, contentDescription = "Share order", tint = HowestMain)
+            }
+        }
     }
 }
 

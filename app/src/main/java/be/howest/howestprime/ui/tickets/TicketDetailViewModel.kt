@@ -24,7 +24,7 @@ class TicketDetailViewModel @Inject constructor(
 
     private var pendingReminder: Pair<Ticket, Int>? = null
 
-    fun loadTicket(ticketId: String?) {
+    fun loadTicket(ticketId: String) {
         try {
             viewModelScope.launch {
                 getTicketById(ticketId).collect { ticket ->
