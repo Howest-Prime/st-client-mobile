@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Alarm
@@ -29,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.ui.theme.HowestMain
+import coil3.compose.AsyncImage
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -75,6 +80,19 @@ fun TicketDetailScreen(
             .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (ticket.posterUrl != null) {
+            AsyncImage(
+                model = ticket.posterUrl,
+                contentDescription = ticket.movieTitle,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(260.dp)
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         Text(
             text = ticket.movieTitle,
             fontSize = 26.sp,
@@ -83,6 +101,15 @@ fun TicketDetailScreen(
                 .fillMaxWidth()
                 .padding(bottom = 4.dp)
         )
+
+        if (ticket.genre.isNotEmpty()) {
+            Text(
+                text = ticket.genre.joinToString(" • "),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
 
@@ -97,6 +124,42 @@ fun TicketDetailScreen(
             icon = { Icon(Icons.Outlined.ConfirmationNumber, contentDescription = null, tint = HowestMain) },
             text = "${ticket.totalTicket} ${stringResource(R.string.ticket_detail_tickets_label)}"
         )
+
+        if (ticket.duration != null || ticket.releaseDate != null || ticket.director != null) {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                ticket.director?.let {
+                    LabelValueRow(label = "Director", value = it)
+                }
+                ticket.duration?.let {
+                    LabelValueRow(label = "Duration", value = "$it min")
+                }
+                ticket.releaseDate?.let {
+                    LabelValueRow(
+                        label = "Release date",
+                        value = it.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+                    )
+                }
+            }
+        }
+
+        if (ticket.actors.isNotEmpty()) {
+            LabelValueRow(label = "Cast", value = ticket.actors.joinToString(", "))
+        }
+
+        if (ticket.description != null) {
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+            Text(
+                text = ticket.description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 20.dp))
 
@@ -142,5 +205,23 @@ private fun InfoRow(
     ) {
         icon()
         Text(text = text, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+@Composable
+private fun LabelValueRow(label: String, value: String, modifier: Modifier = Modifier) {
+    Row(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.width(100.dp)
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+            modifier = Modifier.weight(1f)
+        )
     }
 }
