@@ -32,18 +32,10 @@ class LocationRepositoryImpl @Inject constructor(
     private var listener: OnIndicatorPositionChangedListener? = null
     private var mapView: MapView? = null
 
-    override fun getCinemaLocation(): Point? {
-        val feature = featureCollection.features()?.firstOrNull() ?: return null
-        return when (val geometry = feature.geometry()) {
-            is Point -> geometry
-            is Polygon -> {
-                val ring = geometry.coordinates().firstOrNull() ?: return null
-                val lng = ring.map { it.longitude() }.average()
-                val lat = ring.map { it.latitude() }.average()
-                Point.fromLngLat(lng, lat)
-            }
-            else -> null
-        }
+    override fun getCinemaPolygon(): List<Point>? {
+        val features = featureCollection.features() ?: return null
+        val polygon = features.firstOrNull()?.geometry() as? Polygon ?: return null
+        return polygon.coordinates().firstOrNull()
     }
 
     override fun attachMapView(mapView: MapView) {

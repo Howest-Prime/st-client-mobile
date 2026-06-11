@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
     val location: Flow<Point>
-    fun getCinemaLocation(): Point?
+    fun getCinemaPolygon(): List<Point>?
     fun attachMapView(mapView: MapView)
     fun detachMapView()
 }
