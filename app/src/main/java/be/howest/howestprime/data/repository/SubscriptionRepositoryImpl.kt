@@ -18,6 +18,6 @@ class SubscriptionRepositoryImpl @Inject constructor(
 
     override suspend fun subscribe(email: String) {
         Log.i("SubscriptionRepository", "Subscribing email: $email")
-        settings.setSubscribed();
+        settings.setSubscribed()
     }
 }
