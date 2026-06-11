@@ -6,6 +6,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import be.howest.howestprime.data.local.room.dao.TicketDao
 import be.howest.howestprime.data.local.room.entity.TicketEntity
+import be.howest.howestprime.data.local.room.entity.toDomain
 import be.howest.howestprime.data.messaging.MessageConsumer
 import be.howest.howestprime.data.worker.NotficationWorker
 import be.howest.howestprime.domain.model.Ticket
@@ -40,7 +41,14 @@ class TicketRepositoryImpl @Inject constructor(
                         id = ticket.id,
                         movieTitle = ticket.movieTitle,
                         dateTime = ticket.dateTime,
-                        totalTicket = ticket.totalTicket
+                        totalTicket = ticket.totalTicket,
+                        posterUrl = ticket.posterUrl,
+                        actors = ticket.actors.joinToString(","),
+                        description = ticket.description,
+                        duration = ticket.duration,
+                        genre = ticket.genre.joinToString(","),
+                        releaseDate = ticket.releaseDate,
+                        director = ticket.director
                     )
                 )
             }
@@ -52,14 +60,7 @@ class TicketRepositoryImpl @Inject constructor(
     override fun getAllTickets(): Flow<List<Ticket>> {
         Log.i("TicketRepository", "Fetching all tickets")
         return ticketDao.getAllTickets().map { entities ->
-            entities.map { entity ->
-                Ticket(
-                    id = entity.id,
-                    movieTitle = entity.movieTitle,
-                    dateTime = entity.dateTime,
-                    totalTicket = entity.totalTicket
-                )
-            }
+            entities.map { it.toDomain() }
         }
     }
 
@@ -67,23 +68,12 @@ class TicketRepositoryImpl @Inject constructor(
         val now = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         Log.i("TicketRepository", "Fetching upcoming tickets from $now")
         return ticketDao.getUpcomingTickets(now).map { entities ->
-            entities.map { entity ->
-                Ticket(
-                    id = entity.id,
-                    movieTitle = entity.movieTitle,
-                    dateTime = entity.dateTime,
-                    totalTicket = entity.totalTicket
-                )
-            }
+            entities.map { it.toDomain() }
         }
     }
 
     override fun getTicketById(id: String): Flow<Ticket?> {
-        return ticketDao.getTicketById(id).map { entity ->
-            entity?.let {
-                Ticket(id = it.id, movieTitle = it.movieTitle, dateTime = it.dateTime, totalTicket = it.totalTicket)
-            }
-        }
+        return ticketDao.getTicketById(id).map { it?.toDomain() }
     }
 
     override fun scheduleReminder(ticket: Ticket, minutesBefore: Int) {
