@@ -49,6 +49,10 @@ The app also contains extra features that improve the cinema experience for visi
 - implemented location repo
 - code refactor/ clean up
 
+## Thursday, June 11th, 2026
+- added detailed ticket page (added more proporties to ticket model)
+- added acceleration sensor implementation
+- added in/outside cinema location display 
 
 ... continue for each day until the end of the project
 
@@ -85,7 +89,7 @@ The app also contains extra features that improve the cinema experience for visi
 | ✅ | Display snacks in a SnackListScreen | |
 | ✅ | Add snacks to a cart | |
 | ✅ | Show cart overview in CartScreen | |
-| ❌ | Share order via intent/message | |
+| ✅ | Share order via intent/message | |
 
 ### Location
 
@@ -99,7 +103,7 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |--|---|---|
-| 🧪 | Detect light intensity and movement | |
+| ✅ | Detect light intensity and movement | |
 | ✅ | Flashlight activation via toggle button | |
 | ❌ | Unit testing | |
 
@@ -110,7 +114,7 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |---|---|---|
-| ❌ | Show detailed ticket information | |
+| ✅ | Show detailed ticket information | |
 | ✅ | Multiple notification options | |
 
 
@@ -125,7 +129,7 @@ The app also contains extra features that improve the cinema experience for visi
 
 | Status | Feature | Notes |
 |---|---|---|
-| ❌ | Detect entering/exiting building | |
+|  ✅  | Detect entering/exiting building | |
 
 
 ### Sensors
