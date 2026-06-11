@@ -66,5 +66,9 @@
     <string name="cart_total_price_prefix">Total: €</string>
     <string name="cart_error_retry">Something went wrong. Please try again.</string>
     <string name="cart_order_placed">Order placed successfully!</string>
+    <string name="cart_share_order">Share Order</string>
+
+    <string name="ticket_detail_set_reminder">Set Reminder</string>
+    <string name="ticket_detail_tickets_label">Tickets</string>
 
 </resources>

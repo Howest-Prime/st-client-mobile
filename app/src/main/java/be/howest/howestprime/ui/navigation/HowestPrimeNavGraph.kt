@@ -6,14 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.core.content.ContextCompat
 import be.howest.howestprime.ui.permissions.AppPermission
 import be.howest.howestprime.ui.permissions.MainViewModel
 import be.howest.howestprime.ui.permissions.PermissionManager
@@ -27,6 +29,8 @@ import be.howest.howestprime.ui.sensors.SensorsScreen
 import be.howest.howestprime.ui.sensors.SensorsViewModel
 import be.howest.howestprime.ui.snacks.SnacksScreen
 import be.howest.howestprime.ui.snacks.SnacksViewModel
+import be.howest.howestprime.ui.tickets.TicketDetailScreen
+import be.howest.howestprime.ui.tickets.TicketDetailViewModel
 import be.howest.howestprime.ui.tickets.TicketsScreen
 import be.howest.howestprime.ui.tickets.TicketsViewModel
 
@@ -89,10 +93,10 @@ fun HowestPrimeNavGraph(
                 uiState = homeUiState,
                 onOrderSnackClick = { navController.navigate(Screen.Snacks.route) },
                 onEmailChanged = { homeViewModel.onEmailChanged(it) },
-                onSubscribeClick = { 
-                    homeViewModel.onSubscribeClick() 
+                onSubscribeClick = {
+                    homeViewModel.onSubscribeClick()
                     Toast.makeText(context, "Subscribed to newsletter.", Toast.LENGTH_SHORT).show()
-                    }
+                }
             )
         }
 
@@ -100,6 +104,7 @@ fun HowestPrimeNavGraph(
             TicketsScreen(
                 uiState = ticketsUiState,
                 onToggleUpcomingOnly = { ticketsViewModel.toggleUpcomingOnly() },
+                onTicketClick = { ticket -> navController.navigate(Screen.TicketDetail.routeTo(ticket.id)) },
                 onMovieReminderClick = { ticket, minutesBefore ->
                     when {
                         ContextCompat.checkSelfPermission(
@@ -110,6 +115,36 @@ fun HowestPrimeNavGraph(
                         }
                         else -> {
                             ticketsViewModel.setPendingReminder(ticket, minutesBefore)
+                            mainViewModel.requestPermission(AppPermission.NOTIFICATIONS)
+                        }
+                    }
+                }
+            )
+        }
+
+        composable(
+            route = Screen.TicketDetail.route,
+            arguments = listOf(navArgument("ticketId") { type = NavType.StringType })
+        ) { backStackEntry ->
+
+            val ticketDetailViewModel: TicketDetailViewModel = hiltViewModel()
+            val ticketDetailUiState by ticketDetailViewModel.uiState.collectAsStateWithLifecycle()
+
+            val ticketId = backStackEntry.arguments?.getString("ticketId")
+            ticketDetailViewModel.loadTicket(ticketId)
+            
+            TicketDetailScreen(
+                uiState = ticketDetailUiState,
+                onSetReminder = { ticket, minutesBefore ->
+                    when {
+                        ContextCompat.checkSelfPermission(
+                            context,
+                            android.Manifest.permission.POST_NOTIFICATIONS
+                        ) == PackageManager.PERMISSION_GRANTED -> {
+                            ticketDetailViewModel.scheduleReminder(ticket, minutesBefore)
+                        }
+                        else -> {
+                            ticketDetailViewModel.setPendingReminder(ticket, minutesBefore)
                             mainViewModel.requestPermission(AppPermission.NOTIFICATIONS)
                         }
                     }

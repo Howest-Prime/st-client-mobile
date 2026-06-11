@@ -22,6 +22,9 @@ sealed class Screen(
     data object Map : Screen("map", R.string.map_label, Icons.Outlined.Map)
     data object Sensors : Screen("sensors", R.string.sensors_label, Icons.Outlined.FlashlightOn)
     data object Cart : Screen("cart", R.string.cart_label, Icons.Filled.Home)
+    data object TicketDetail : Screen("tickets/{ticketId}", R.string.tickets_label, Icons.Outlined.ConfirmationNumber) {
+        fun routeTo(ticketId: String) = "tickets/$ticketId"
+    }
 }
 
 val bottomNavScreens = listOf(

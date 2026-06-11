@@ -17,6 +17,8 @@ import be.howest.howestprime.ui.navigation.HowestPrimeNavGraph
 import be.howest.howestprime.ui.navigation.Screen
 import be.howest.howestprime.ui.theme.HowestprimeTheme
 
+private val screensWithUpOption = listOf(Screen.Cart.route, Screen.TicketDetail.route)
+
 @Composable
 fun HowestPrimeApp() {
     HowestprimeTheme {
@@ -32,7 +34,7 @@ fun HowestPrimeApp() {
             topBar = {
                 HowestPrimeAppBar(
                     appName = R.string.app_name,
-                    canNavigateBack = currentDestination?.route == Screen.Cart.route,
+                    canNavigateBack = currentDestination?.route in screensWithUpOption,
                     navigateUp = { navController.navigateUp() },
                     cartItemCount = cartUiState.totalItems,
                     onCartClick = { navController.navigate(Screen.Cart.route) }
