@@ -6,14 +6,16 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import be.howest.howestprime.data.local.room.dao.TicketDao
 import be.howest.howestprime.data.local.room.entity.TicketEntity
-import be.howest.howestprime.data.local.room.entity.toDomain
 import be.howest.howestprime.data.messaging.MessageConsumer
 import be.howest.howestprime.data.worker.NotficationWorker
 import be.howest.howestprime.domain.model.Ticket
 import be.howest.howestprime.domain.repository.TicketRepository
 import com.squareup.moshi.Moshi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -36,21 +38,23 @@ class TicketRepositoryImpl @Inject constructor(
             Log.d("TicketRepository", "Received message: $json")
             val ticket = ticketAdapter.fromJson(json)
             if (ticket != null) {
-                ticketDao.insertTicket(
-                    TicketEntity(
-                        id = ticket.id,
-                        movieTitle = ticket.movieTitle,
-                        dateTime = ticket.dateTime,
-                        totalTicket = ticket.totalTicket,
-                        posterUrl = ticket.posterUrl,
-                        actors = ticket.actors.joinToString(","),
-                        description = ticket.description,
-                        duration = ticket.duration,
-                        genre = ticket.genre.joinToString(","),
-                        releaseDate = ticket.releaseDate,
-                        director = ticket.director
+                CoroutineScope(Dispatchers.IO).launch {
+                    ticketDao.insertTicket(
+                        TicketEntity(
+                            id = ticket.id,
+                            movieTitle = ticket.movieTitle,
+                            dateTime = ticket.dateTime,
+                            totalTicket = ticket.totalTicket,
+                            posterUrl = ticket.posterUrl,
+                            actors = ticket.actors.joinToString(","),
+                            description = ticket.description,
+                            duration = ticket.duration,
+                            genre = ticket.genre.joinToString(","),
+                            releaseDate = ticket.releaseDate,
+                            director = ticket.director
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -96,3 +100,17 @@ class TicketRepositoryImpl @Inject constructor(
         workManager.enqueue(workRequest)
     }
 }
+
+private fun TicketEntity.toDomain() = Ticket(
+    id = id,
+    movieTitle = movieTitle,
+    dateTime = dateTime,
+    totalTicket = totalTicket,
+    posterUrl = posterUrl,
+    actors = actors?.split(",")?.map { it.trim() }?.filter { it.isNotBlank() } ?: emptyList(),
+    description = description,
+    duration = duration,
+    genre = genre?.split(",")?.map { it.trim() }?.filter { it.isNotBlank() } ?: emptyList(),
+    releaseDate = releaseDate,
+    director = director
+)

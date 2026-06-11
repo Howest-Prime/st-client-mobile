@@ -25,8 +25,8 @@ class TicketDetailViewModel @Inject constructor(
     private var pendingReminder: Pair<Ticket, Int>? = null
 
     fun loadTicket(ticketId: String) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 getTicketById(ticketId).collect { ticket ->
                     _uiState.update { currentState ->
                         if (currentState.ticket?.id == ticket?.id) {
@@ -36,9 +36,9 @@ class TicketDetailViewModel @Inject constructor(
                         }
                     }
                 }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(errorMessage = "Ticket could not be loaded") }
             }
-        } catch (e: Exception) {
-            _uiState.update { it.copy(errorMessage = "Ticket could not be loaded") }
         }
     }
 
