@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -69,6 +70,7 @@ fun TicketsScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .testTag("tickets_screen")
     ) {
         TicketsHeader()
 
@@ -119,7 +121,7 @@ private fun UpcomingFilter(
             text = stringResource(R.string.show_upcoming_only),
             style = MaterialTheme.typography.bodyLarge
         )
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        Switch(checked = checked, onCheckedChange = onCheckedChange, modifier = Modifier.testTag("upcoming_filter_switch"))
     }
 }
 
@@ -137,7 +139,8 @@ private fun TicketsContent(
                 text = uiState.errorMessage,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag("tickets_error_text"),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center
@@ -148,7 +151,8 @@ private fun TicketsContent(
                 text = stringResource(R.string.tickets_empty),
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag("tickets_empty_text"),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center

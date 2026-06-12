@@ -25,9 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
@@ -57,6 +59,7 @@ fun CartScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            .testTag("cart_screen")
     ) {
         CartHeader(onShare = onShare, hasItems = uiState.items.isNotEmpty())
         CartContent(
@@ -104,7 +107,8 @@ private fun CartContent(
                 text = uiState.errorMessage,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag("cart_error_text"),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.error,
                 textAlign = TextAlign.Center
@@ -115,7 +119,8 @@ private fun CartContent(
                 text = stringResource(R.string.cart_order_placed),
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag("cart_order_placed_text"),
                 style = MaterialTheme.typography.bodyLarge,
                 color = HowestMain,
                 textAlign = TextAlign.Center
@@ -126,7 +131,8 @@ private fun CartContent(
                 text = stringResource(R.string.cart_empty),
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(32.dp),
+                    .padding(32.dp)
+                    .testTag("cart_empty_text"),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
@@ -163,7 +169,7 @@ private fun CartContent(
                 ) {
                     Button(
                         onClick = onPlaceOrder,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).testTag("place_order_btn"),
                         enabled = !uiState.isPlacingOrder,
                         colors = ButtonDefaults.buttonColors(containerColor = HowestMain)
                     ) {
@@ -171,7 +177,7 @@ private fun CartContent(
                     }
                     OutlinedButton(
                         onClick = onClearCart,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f).testTag("cancel_btn")
                     ) {
                         Text(stringResource(R.string.cart_cancel))
                     }
@@ -227,4 +233,42 @@ private fun CartSummary(
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CartScreenEmptyPreview() {
+    CartScreen(
+        uiState = CartUIState(items = emptyList()),
+        onPlaceOrder = {},
+        onClearCart = {},
+        onShare = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CartScreenWithItemsPreview() {
+    CartScreen(
+        uiState = CartUIState(
+            items = listOf(
+                CartItem("1", "Popcorn", 3.50, 2),
+                CartItem("2", "Nachos", 4.00, 1)
+            )
+        ),
+        onPlaceOrder = {},
+        onClearCart = {},
+        onShare = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CartScreenOrderPlacedPreview() {
+    CartScreen(
+        uiState = CartUIState(isOrderPlaced = true),
+        onPlaceOrder = {},
+        onClearCart = {},
+        onShare = {}
+    )
 }

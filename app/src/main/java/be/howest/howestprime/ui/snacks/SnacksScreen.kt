@@ -24,10 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
@@ -46,6 +48,7 @@ fun SnacksScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            .testTag("snacks_screen")
     ) {
         SnacksHeader()
 
@@ -116,10 +119,34 @@ private fun SnackCard(
                 onClick = onAddClick,
                 colors = ButtonDefaults.buttonColors(containerColor = HowestMain),
                 shape = RoundedCornerShape(50),
-                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp)
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 6.dp),
+                modifier = Modifier.testTag("snack_add_btn_${snack.id}")
             ) {
                 Text(stringResource(R.string.snack_add_button), fontSize = 12.sp)
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SnacksScreenPreview() {
+    SnacksScreen(
+        uiState = SnacksUIState(
+            snacks = listOf(
+                Snack("1", "Popcorn", "Salty popcorn", "", "snacks", 3.50, null, 10, false, emptyList()),
+                Snack("2", "Nachos", "Cheesy nachos", "", "snacks", 4.00, 3.00, 5, true, emptyList())
+            )
+        ),
+        onAddToCart = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SnacksScreenEmptyPreview() {
+    SnacksScreen(
+        uiState = SnacksUIState(snacks = emptyList()),
+        onAddToCart = {}
+    )
 }

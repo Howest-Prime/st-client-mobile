@@ -22,8 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import be.howest.howestprime.R
@@ -46,6 +48,7 @@ fun SensorsScreen(
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            .testTag("sensors_screen")
     ) {
         SensorsHeader()
 
@@ -127,7 +130,8 @@ private fun SeatingSection(
             text = if (isSeated) stringResource(R.string.sensors_seated) else stringResource(R.string.sensors_standing),
             color = if (isSeated) HowestMain else MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Medium,
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            modifier = Modifier.testTag("seating_status_text")
         )
     }
 }
@@ -146,6 +150,28 @@ private fun FlashlightSection(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(stringResource(R.string.sensors_flashlight_label), style = MaterialTheme.typography.bodyLarge)
-        Switch(checked = enabled, onCheckedChange = { onToggle() })
+        Switch(checked = enabled, onCheckedChange = { onToggle() }, modifier = Modifier.testTag("flashlight_switch"))
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SensorsScreenPreview() {
+    SensorsScreen(
+        uiState = SensorsUIState(luxValue = 350f, isSeated = true, flashlightEnabled = false),
+        toggleFlashLight = {},
+        onScreenVisible = {},
+        onScreenHidden = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SensorsScreenStandingPreview() {
+    SensorsScreen(
+        uiState = SensorsUIState(luxValue = 800f, isSeated = false, flashlightEnabled = true),
+        toggleFlashLight = {},
+        onScreenVisible = {},
+        onScreenHidden = {}
+    )
 }
