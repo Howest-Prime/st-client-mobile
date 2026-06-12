@@ -1,6 +1,5 @@
 package be.howest.howestprime.domain.usecase
 
-import be.howest.howestprime.domain.model.CartItem
 import be.howest.howestprime.domain.model.Snack
 import be.howest.howestprime.fake.FakeCartRepository
 import be.howest.howestprime.fake.FakeSnackRepository
@@ -16,28 +15,16 @@ class SnackUseCasesTest {
     private lateinit var fakeCartRepository: FakeCartRepository
 
     private val snackWithPromo = Snack(
-        id = "s1",
-        name = "Popcorn",
-        description = "Salty popcorn",
-        imageUrl = "https://example.com/popcorn.jpg",
-        category = "Snacks",
-        originalPrice = 4.99,
-        promoPrice = 3.49,
-        stock = 50,
-        promo = true,
+        id = "s1", name = "Popcorn", description = "Salty popcorn",
+        imageUrl = "https://example.com/popcorn.jpg", category = "Snacks",
+        originalPrice = 4.99, promoPrice = 3.49, stock = 50, promo = true,
         allergens = listOf("Gluten")
     )
 
     private val snackWithoutPromo = Snack(
-        id = "s2",
-        name = "Nachos",
-        description = "Crispy nachos",
-        imageUrl = "https://example.com/nachos.jpg",
-        category = "Snacks",
-        originalPrice = 5.99,
-        promoPrice = null,
-        stock = 30,
-        promo = false,
+        id = "s2", name = "Nachos", description = "Crispy nachos",
+        imageUrl = "https://example.com/nachos.jpg", category = "Snacks",
+        originalPrice = 5.99, promoPrice = null, stock = 30, promo = false,
         allergens = emptyList()
     )
 
@@ -46,8 +33,6 @@ class SnackUseCasesTest {
         fakeSnackRepository = FakeSnackRepository()
         fakeCartRepository = FakeCartRepository()
     }
-
-    // GetAllSnacksUseCase
 
     @Test
     fun getAllSnacks_returns_all_snacks_from_repository() = runTest {
@@ -63,8 +48,6 @@ class SnackUseCasesTest {
         val result = useCase().first()
         assertEquals(emptyList<Snack>(), result)
     }
-
-    // AddSnackToCartUseCase
 
     @Test
     fun addSnackToCart_uses_promoPrice_when_available() = runTest {

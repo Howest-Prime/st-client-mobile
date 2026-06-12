@@ -1,6 +1,5 @@
 package be.howest.howestprime.ui.cart
 
-import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -35,9 +34,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("cart_empty_text")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("cart_empty_text").assertIsDisplayed()
     }
 
     @Test
@@ -66,9 +63,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("cart_order_placed_text")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("cart_order_placed_text").assertIsDisplayed()
     }
 
     @Test
@@ -82,9 +77,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("cart_empty_text")
-            .assertDoesNotExist()
+        composeTestRule.onNodeWithTag("cart_empty_text").assertDoesNotExist()
     }
 
     @Test
@@ -100,9 +93,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("place_order_btn")
-            .performClick()
+        composeTestRule.onNodeWithTag("place_order_btn").performClick()
 
         assertTrue(orderPlaced)
     }
@@ -120,9 +111,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("cancel_btn")
-            .performClick()
+        composeTestRule.onNodeWithTag("cancel_btn").performClick()
 
         assertTrue(cancelled)
     }
@@ -138,9 +127,7 @@ class CartScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("cart_error_text")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("cart_error_text").assertIsDisplayed()
     }
 
     @Test

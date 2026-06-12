@@ -20,8 +20,6 @@ class CartUseCasesTest {
         fakeRepository = FakeCartRepository()
     }
 
-    // GetCartItemsUseCase
-
     @Test
     fun getCartItems_returns_items_from_repository() = runTest {
         fakeRepository.addItem(cartItem)
@@ -37,8 +35,6 @@ class CartUseCasesTest {
         assertTrue(result.isEmpty())
     }
 
-    // PlaceOrderUseCase
-
     @Test
     fun placeOrder_delegates_to_repository() = runTest {
         val useCase = PlaceOrderUseCase(fakeRepository)
@@ -53,8 +49,6 @@ class CartUseCasesTest {
         useCase()
         assertEquals(2, fakeRepository.placeOrderCallCount)
     }
-
-    // ClearCartUseCase
 
     @Test
     fun clearCart_delegates_to_repository() = runTest {

@@ -19,66 +19,39 @@ class SnacksScreenTest {
     val composeTestRule = createComposeRule()
 
     private val sampleSnack = Snack(
-        id = "1",
-        name = "Popcorn",
-        description = "Salty popcorn",
-        imageUrl = "",
-        category = "snacks",
-        originalPrice = 3.50,
-        promoPrice = null,
-        stock = 10,
-        promo = false,
-        allergens = emptyList()
+        id = "1", name = "Popcorn", description = "Salty popcorn", imageUrl = "",
+        category = "snacks", originalPrice = 3.50, promoPrice = null,
+        stock = 10, promo = false, allergens = emptyList()
     )
 
     private val promoSnack = Snack(
-        id = "2",
-        name = "Nachos",
-        description = "Cheesy nachos",
-        imageUrl = "",
-        category = "snacks",
-        originalPrice = 4.00,
-        promoPrice = 3.00,
-        stock = 5,
-        promo = true,
-        allergens = emptyList()
+        id = "2", name = "Nachos", description = "Cheesy nachos", imageUrl = "",
+        category = "snacks", originalPrice = 4.00, promoPrice = 3.00,
+        stock = 5, promo = true, allergens = emptyList()
     )
 
     @Test
     fun snacksScreen_isDisplayed() {
         composeTestRule.setContent {
-            SnacksScreen(
-                uiState = SnacksUIState(snacks = emptyList()),
-                onAddToCart = {}
-            )
+            SnacksScreen(uiState = SnacksUIState(snacks = emptyList()), onAddToCart = {})
         }
 
-        composeTestRule
-            .onNodeWithTag("snacks_screen")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("snacks_screen").assertIsDisplayed()
     }
 
     @Test
     fun snacksScreen_showsSnackName_whenSnacksExist() {
         composeTestRule.setContent {
-            SnacksScreen(
-                uiState = SnacksUIState(snacks = listOf(sampleSnack)),
-                onAddToCart = {}
-            )
+            SnacksScreen(uiState = SnacksUIState(snacks = listOf(sampleSnack)), onAddToCart = {})
         }
 
-        composeTestRule
-            .onNodeWithText("Popcorn")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Popcorn").assertIsDisplayed()
     }
 
     @Test
     fun snacksScreen_showsAddButton_forEachSnack() {
         composeTestRule.setContent {
-            SnacksScreen(
-                uiState = SnacksUIState(snacks = listOf(sampleSnack, promoSnack)),
-                onAddToCart = {}
-            )
+            SnacksScreen(uiState = SnacksUIState(snacks = listOf(sampleSnack, promoSnack)), onAddToCart = {})
         }
 
         composeTestRule.onNodeWithTag("snack_add_btn_1").assertIsDisplayed()
@@ -96,9 +69,7 @@ class SnacksScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("snack_add_btn_1")
-            .performClick()
+        composeTestRule.onNodeWithTag("snack_add_btn_1").performClick()
 
         assertTrue(addedSnack == sampleSnack)
     }
@@ -106,24 +77,16 @@ class SnacksScreenTest {
     @Test
     fun snacksScreen_showsPromoPrice_whenSnackHasPromo() {
         composeTestRule.setContent {
-            SnacksScreen(
-                uiState = SnacksUIState(snacks = listOf(promoSnack)),
-                onAddToCart = {}
-            )
+            SnacksScreen(uiState = SnacksUIState(snacks = listOf(promoSnack)), onAddToCart = {})
         }
 
-        composeTestRule
-            .onNodeWithText("PROMO €3.0", substring = true)
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("PROMO €3.0", substring = true).assertIsDisplayed()
     }
 
     @Test
     fun snacksScreen_showsMultipleSnacks() {
         composeTestRule.setContent {
-            SnacksScreen(
-                uiState = SnacksUIState(snacks = listOf(sampleSnack, promoSnack)),
-                onAddToCart = {}
-            )
+            SnacksScreen(uiState = SnacksUIState(snacks = listOf(sampleSnack, promoSnack)), onAddToCart = {})
         }
 
         composeTestRule.onNodeWithText("Popcorn").assertIsDisplayed()

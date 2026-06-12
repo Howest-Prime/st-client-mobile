@@ -20,6 +20,20 @@ class SensorsScreenTest {
     val composeTestRule = createComposeRule()
 
     @Test
+    fun sensorsScreen_isDisplayed() {
+        composeTestRule.setContent {
+            SensorsScreen(
+                uiState = SensorsUIState(),
+                toggleFlashLight = {},
+                onScreenVisible = {},
+                onScreenHidden = {}
+            )
+        }
+
+        composeTestRule.onNodeWithTag("sensors_screen").assertIsDisplayed()
+    }
+
+    @Test
     fun sensorsScreen_showsFlashlightToggle() {
         composeTestRule.setContent {
             SensorsScreen(
@@ -30,9 +44,7 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("flashlight_switch")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("flashlight_switch").assertIsDisplayed()
     }
 
     @Test
@@ -46,13 +58,8 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("seating_status_text")
-            .assertIsDisplayed()
-
-        composeTestRule
-            .onNodeWithText("You appear to be seated")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("seating_status_text").assertIsDisplayed()
+        composeTestRule.onNodeWithText("You appear to be seated").assertIsDisplayed()
     }
 
     @Test
@@ -66,9 +73,7 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("You are standing")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("You are standing").assertIsDisplayed()
     }
 
     @Test
@@ -82,9 +87,7 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("flashlight_switch")
-            .assertIsOff()
+        composeTestRule.onNodeWithTag("flashlight_switch").assertIsOff()
     }
 
     @Test
@@ -98,9 +101,7 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("flashlight_switch")
-            .assertIsOn()
+        composeTestRule.onNodeWithTag("flashlight_switch").assertIsOn()
     }
 
     @Test
@@ -116,26 +117,8 @@ class SensorsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("flashlight_switch")
-            .performClick()
+        composeTestRule.onNodeWithTag("flashlight_switch").performClick()
 
         assertTrue(toggled)
-    }
-
-    @Test
-    fun sensorsScreen_isDisplayed() {
-        composeTestRule.setContent {
-            SensorsScreen(
-                uiState = SensorsUIState(),
-                toggleFlashLight = {},
-                onScreenVisible = {},
-                onScreenHidden = {}
-            )
-        }
-
-        composeTestRule
-            .onNodeWithTag("sensors_screen")
-            .assertIsDisplayed()
     }
 }

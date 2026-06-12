@@ -1,9 +1,5 @@
 package be.howest.howestprime.ui.tickets
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
@@ -35,9 +31,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("tickets_empty_text")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tickets_empty_text").assertIsDisplayed()
     }
 
     @Test
@@ -52,9 +46,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("Inception")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Inception").assertIsDisplayed()
     }
 
     @Test
@@ -69,9 +61,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("tickets_empty_text")
-            .assertDoesNotExist()
+        composeTestRule.onNodeWithTag("tickets_empty_text").assertDoesNotExist()
     }
 
     @Test
@@ -84,9 +74,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("upcoming_filter_switch")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("upcoming_filter_switch").assertIsDisplayed()
     }
 
     @Test
@@ -99,9 +87,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("upcoming_filter_switch")
-            .assertIsOff()
+        composeTestRule.onNodeWithTag("upcoming_filter_switch").assertIsOff()
     }
 
     @Test
@@ -114,9 +100,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("upcoming_filter_switch")
-            .assertIsOn()
+        composeTestRule.onNodeWithTag("upcoming_filter_switch").assertIsOn()
     }
 
     @Test
@@ -131,9 +115,7 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("upcoming_filter_switch")
-            .performClick()
+        composeTestRule.onNodeWithTag("upcoming_filter_switch").performClick()
 
         assertTrue(toggled)
     }
@@ -148,8 +130,6 @@ class TicketsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("tickets_error_text")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("tickets_error_text").assertIsDisplayed()
     }
 }

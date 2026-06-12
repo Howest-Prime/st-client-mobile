@@ -3,7 +3,6 @@ package be.howest.howestprime.ui.home
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.test.assertDoesNotExist
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -34,9 +33,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("subscribe")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("subscribe").assertIsDisplayed()
     }
 
     @Test
@@ -52,13 +49,9 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("SUBSCRIBE")
-            .performClick()
+        composeTestRule.onNodeWithText("SUBSCRIBE").performClick()
 
-        composeTestRule
-            .onNodeWithTag("subscribe")
-            .assertDoesNotExist()
+        composeTestRule.onNodeWithTag("subscribe").assertDoesNotExist()
     }
 
     @Test
@@ -72,9 +65,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("order_snack_btn")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag("order_snack_btn").assertIsDisplayed()
     }
 
     @Test
@@ -90,9 +81,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("order_snack_btn")
-            .performClick()
+        composeTestRule.onNodeWithTag("order_snack_btn").performClick()
 
         assertTrue(clicked)
     }
@@ -108,9 +97,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("SUBSCRIBE")
-            .assertIsNotEnabled()
+        composeTestRule.onNodeWithText("SUBSCRIBE").assertIsNotEnabled()
     }
 
     @Test
@@ -124,9 +111,7 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithText("SUBSCRIBE")
-            .assertIsEnabled()
+        composeTestRule.onNodeWithText("SUBSCRIBE").assertIsEnabled()
     }
 
     @Test
@@ -140,8 +125,6 @@ class HomeScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag("subscribe")
-            .assertDoesNotExist()
+        composeTestRule.onNodeWithTag("subscribe").assertDoesNotExist()
     }
 }
