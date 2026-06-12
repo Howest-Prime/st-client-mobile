@@ -1,0 +1,12 @@
+networks:
+  howestprime-network:
+    driver: bridge
+
+services:
+  messagebroker:
+    image: cloudamqp/lavinmq
+    networks:
+      - howestprime-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
