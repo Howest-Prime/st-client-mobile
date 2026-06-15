@@ -35,6 +35,8 @@ import be.howest.howestprime.ui.tickets.TicketDetailViewModel
 import be.howest.howestprime.ui.tickets.TicketsScreen
 import be.howest.howestprime.ui.tickets.TicketsViewModel
 
+private const val REMINDER_SET_MESSAGE = "Reminder set — you'll be notified before the movie starts."
+
 @Composable
 fun HowestPrimeNavGraph(
     navController: NavHostController = rememberNavController(),
@@ -77,7 +79,10 @@ fun HowestPrimeNavGraph(
             if (granted) {
                 when (permission) {
                     AppPermission.LOCATION -> mapViewModel.startLocationUpdates()
-                    AppPermission.NOTIFICATIONS -> ticketsViewModel.schedulePendingReminder()
+                    AppPermission.NOTIFICATIONS -> {
+                        ticketsViewModel.schedulePendingReminder()
+                        Toast.makeText(context, REMINDER_SET_MESSAGE, Toast.LENGTH_SHORT).show()
+                    }
                     else -> {}
                 }
             }
@@ -113,6 +118,7 @@ fun HowestPrimeNavGraph(
                             android.Manifest.permission.POST_NOTIFICATIONS
                         ) == PackageManager.PERMISSION_GRANTED -> {
                             ticketsViewModel.scheduleReminder(ticket, minutesBefore)
+                            Toast.makeText(context, REMINDER_SET_MESSAGE, Toast.LENGTH_SHORT).show()
                         }
                         else -> {
                             ticketsViewModel.setPendingReminder(ticket, minutesBefore)
@@ -143,6 +149,7 @@ fun HowestPrimeNavGraph(
                             android.Manifest.permission.POST_NOTIFICATIONS
                         ) == PackageManager.PERMISSION_GRANTED -> {
                             ticketDetailViewModel.scheduleReminder(ticket, minutesBefore)
+                            Toast.makeText(context, REMINDER_SET_MESSAGE, Toast.LENGTH_SHORT).show()
                         }
                         else -> {
                             ticketDetailViewModel.setPendingReminder(ticket, minutesBefore)
